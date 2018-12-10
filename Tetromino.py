@@ -32,13 +32,19 @@ BLUE        = (  0,   0, 155)
 LIGHTBLUE   = ( 20,  20, 175)
 YELLOW      = (155, 155,   0)
 LIGHTYELLOW = (175, 175,  20)
+CYAN        = (  0, 255, 255)
+LIGHTCYAN   = (224, 255, 255)
+PURPLE      = (128,   0, 128)
+LIGHTPURPLE = (238, 130, 238)
+ORANGE      = (255, 140,   0)
+LIGHTORANGE = (255, 165,   0)
 
 BORDERCOLOR = BLUE
 BGCOLOR = BLACK
 TEXTCOLOR = WHITE
 TEXTSHADOWCOLOR = GRAY
-COLORS      = (     BLUE,      GREEN,      RED,      YELLOW)
-LIGHTCOLORS = (LIGHTBLUE, LIGHTGREEN, LIGHTRED, LIGHTYELLOW)
+COLORS      = (     BLUE,      GREEN,      RED,      YELLOW,      CYAN,      PURPLE,      ORANGE)
+LIGHTCOLORS = (LIGHTBLUE, LIGHTGREEN, LIGHTRED, LIGHTYELLOW, LIGHTCYAN, LIGHTPURPLE, LIGHTORANGE)
 assert len(COLORS) == len(LIGHTCOLORS) # each color must have light color
 
 TEMPLATEWIDTH = 5
@@ -154,6 +160,13 @@ PIECES = {'S': S_SHAPE_TEMPLATE,
           'O': O_SHAPE_TEMPLATE,
           'T': T_SHAPE_TEMPLATE}
 
+PIECE_COLORS = {'S': 1,
+                'Z': 2,
+                'J': 0,
+                'L': 6,
+                'I': 4,
+                'O': 3,
+                'T': 5}
 
 def init():
     global FPSCLOCK, DISPLAYSURF, BASICFONT, BIGFONT
@@ -358,7 +371,7 @@ def getNewPiece():
                 'rotation': random.randint(0, len(PIECES[shape]) - 1),
                 'x': int(BOARDWIDTH / 2) - int(TEMPLATEWIDTH / 2),
                 'y': -2, # start it above the board (i.e. less than 0)
-                'color': random.randint(0, len(COLORS)-1)}
+                'color': PIECE_COLORS[shape]}
     return newPiece
 
 

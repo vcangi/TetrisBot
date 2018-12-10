@@ -3,7 +3,7 @@ import time
 
 
 # Holds a key (string) for a number of seconds
-def holdKey(key,secs):
+def hold_key(key, secs):
     for i in range(round(secs*100)):
         keyboard.press(key)
         time.sleep(0.01)
@@ -11,33 +11,33 @@ def holdKey(key,secs):
 
 
 # Short press of key to move a tetris piece one unit
-def moveUnit(key):
-    holdKey(key,.05)
+def move_unit(key):
+    hold_key(key, .05)
     time.sleep(0.05)
 
 
-def moveLeft(units = 1):
+def move_left(units=1):
     for i in range(units):
-        moveUnit("left")
+        move_unit("left")
 
 
-def moveRight(units = 1):
+def move_right(units=1):
     for i in range(units):
-        moveUnit("right")
+        move_unit("right")
 
 
-def hardDrop():
-    moveUnit("up")
+def hard_drop():
+    move_unit("up")
 
 
-def rotateCW():
-    moveUnit("a")
+def rotate_cw():
+    move_unit("a")
 
 
 time.sleep(1)
-moveLeft(5)
-moveRight(6)
-rotateCW()
-rotateCW()
-moveLeft(6)
-hardDrop()
+move_left(5)
+move_right(6)
+rotate_cw()
+rotate_cw()
+move_left(6)
+hard_drop()
