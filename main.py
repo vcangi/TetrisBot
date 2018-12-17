@@ -1,7 +1,8 @@
-import pygame
-import Tetromino
+import sys
+sys.path.append('./Game')
 
-Tetromino.init()
-while True: # game loop
-        Tetromino.runGame()
-        Tetromino.showTextScreen('Game Over')
+from tetris import tetris
+
+game = tetris()
+
+game.runGame()

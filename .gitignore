@@ -7,3 +7,4 @@
 .idea/encodings.xml
 __pycache__/
 *.py[cod]
+.svg
