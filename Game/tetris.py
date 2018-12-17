@@ -13,6 +13,8 @@ class tetris:
             pygame.time.delay(50)
             self.clock.tick(10)
             self.redrawWindow()
+            if self.checkClose():
+                break
 
     def redrawWindow(self):
         self.win.fill((0,0,0))
@@ -28,6 +30,13 @@ class tetris:
         for l in range(0,BLOCKY):
             y += BLOCKSIZE
             pygame.draw.line(self.win, GRAY, (0,y),(GRIDPIXELX,y))
+
+    def checkClose(self):
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return True
+        return False
 
 
 
