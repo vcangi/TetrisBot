@@ -1,121 +1,43 @@
+import numpy as np
+
 class Block:
 
 	def __init__(self):
-		
+		print('henlo world')
+		self.coord = np.array
 
-S_SHAPE_TEMPLATE = [['.....',
-                     '.....',
-                     '..OO.',
-                     '.OO..',
-                     '.....'],
-                    ['.....',
-                     '..O..',
-                     '..OO.',
-                     '...O.',
-                     '.....']]
+	def rotate(self):
+		print('henlo')
 
-Z_SHAPE_TEMPLATE = [['.....',
-                     '.....',
-                     '.OO..',
-                     '..OO.',
-                     '.....'],
-                    ['.....',
-                     '..O..',
-                     '.OO..',
-                     '.O...',
-                     '.....']]
+	def getPosition(self):
+		return self.coord
 
-I_SHAPE_TEMPLATE = [['..O..',
-                     '..O..',
-                     '..O..',
-                     '..O..',
-                     '.....'],
-                    ['.....',
-                     '.....',
-                     'OOOO.',
-                     '.....',
-                     '.....']]
+	def getColor(self):
+		return self.Color
 
-O_SHAPE_TEMPLATE = [['.....',
-                     '.....',
-                     '.OO..',
-                     '.OO..',
-                     '.....']]
+	def setPosition(self,coord):
+		self.coord = coord
 
-J_SHAPE_TEMPLATE = [['.....',
-                     '.O...',
-                     '.OOO.',
-                     '.....',
-                     '.....'],
-                    ['.....',
-                     '..OO.',
-                     '..O..',
-                     '..O..',
-                     '.....'],
-                    ['.....',
-                     '.....',
-                     '.OOO.',
-                     '...O.',
-                     '.....'],
-                    ['.....',
-                     '..O..',
-                     '..O..',
-                     '.OO..',
-                     '.....']]
+Z_PIECE_INITIAL	= np.array([[4,0],[0,5],[1,5],[1,6]])
+S_PIECE_INITIAL	= np.array([[5,0],[6,0],[4,1],[5,1]])
+I_PIECE_INITIAL	= np.array([[5,0],[5,1],[5,2],[5,3]])
+L_PIECE_INITIAL	= np.array([[5,0],[5,1],[5,2],[6,2]])
+J_PIECE_INITIAL	= np.array([[5,0],[5,1],[4,2],[5,2]])
+O_PIECE_INITIAL	= np.array([[5,0],[6,0],[5,1],[6,1]])
+T_PIECE_INITIAL	= np.array([[4,0],[5,0],[6,0],[5,1]])
 
-L_SHAPE_TEMPLATE = [['.....',
-                     '...O.',
-                     '.OOO.',
-                     '.....',
-                     '.....'],
-                    ['.....',
-                     '..O..',
-                     '..O..',
-                     '..OO.',
-                     '.....'],
-                    ['.....',
-                     '.....',
-                     '.OOO.',
-                     '.O...',
-                     '.....'],
-                    ['.....',
-                     '.OO..',
-                     '..O..',
-                     '..O..',
-                     '.....']]
-
-T_SHAPE_TEMPLATE = [['.....',
-                     '..O..',
-                     '.OOO.',
-                     '.....',
-                     '.....'],
-                    ['.....',
-                     '..O..',
-                     '..OO.',
-                     '..O..',
-                     '.....'],
-                    ['.....',
-                     '.....',
-                     '.OOO.',
-                     '..O..',
-                     '.....'],
-                    ['.....',
-                     '..O..',
-                     '.OO..',
-                     '..O..',
-                     '.....']]
-
-RED         = (155,   0,   0)
-LIGHTRED    = (175,  20,  20)
-GREEN       = (  0, 155,   0)
-LIGHTGREEN  = ( 20, 175,  20)
-BLUE        = (  0,   0, 155)
-LIGHTBLUE   = ( 20,  20, 175)
-YELLOW      = (155, 155,   0)
-LIGHTYELLOW = (175, 175,  20)
-CYAN        = (  0, 255, 255)
-LIGHTCYAN   = (224, 255, 255)
-PURPLE      = (128,   0, 128)
-LIGHTPURPLE = (238, 130, 238)
-ORANGE      = (255, 140,   0)
-LIGHTORANGE = (255, 165,   0)
+COLOR = {'z':1
+		 's':2
+		 'i':3
+		 'l':4
+		 'j':5
+		 'o':6
+		 't':7}
+		 
+START = {'z':Z_PIECE_INITIAL
+		 's':S_PIECE_INITIAL
+		 'i':I_PIECE_INITIAL
+		 'l':L_PIECE_INITIAL
+		 'j':J_PIECE_INITIAL
+		 'o':O_PIECE_INITIAL
+		 't':T_PIECE_INITIAL}
