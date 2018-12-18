@@ -1,8 +1,6 @@
 class ZBlock(block):
 	
 	def __init__(self):
-		self.__coord = np.array([[4,0],[0,5],[1,5],[1,6]])
+		self.__coord = np.array([[4,0],[0,5],[5,1],[6,1]])
 		self.__color = 1
-
-	def rotate(self):
-		print('henlo world')
+		self.__rotTF = np.array([[2,0],[1,1],[0,0],[-1,1]])
