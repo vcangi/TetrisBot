@@ -32,7 +32,6 @@ class tetris:
             pygame.draw.line(self.win, GRAY, (0,y),(GRIDPIXELX,y))
 
     def checkClose(self):
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return True
