@@ -16,7 +16,7 @@ class Block:
 		#RotDir assumed to be either be +1 or -1
 		newLoc = self.rotate(RotDir) #Gets potential new rotaion location
 		newLoc,moved = self.WallKick(newLoc,RotDir,grid)
-		if moved
+		if moved:
 			self.__orient = self.setRotation(RotDir)
 			self.__coord  = newLoc
 		return self.__coord
@@ -24,7 +24,7 @@ class Block:
 	def getValidShift(self,ShiftDir):
 		#ShiftDir assumed to be either be +1 or -1
 		newLoc = np.add(self.__coord,[ShiftDir,0])
-		if self.isUnoccupied(newLoc) and newLoc[:,0] !< 0 and newLoc[:,0] !> 9
+		if self.isUnoccupied(newLoc) and newLoc[:,0] !< 0 and newLoc[:,0] !> 9:
 			self.__coord  = newLoc
 			self.__center = self.__center
 		return self.__coord
@@ -63,7 +63,7 @@ class Block:
 
 	def isUnoccupied(self,loc):
 		for pixel in loc:
-				if self.__grid[pixel] != 0
+				if self.__grid[pixel] != 0:
 					return False
 		return True
 
@@ -81,16 +81,16 @@ class Block:
 
 	def setRotation(self,RotDir):
 		rot = 0
-		if RotDir == 1
-			if rot == 3
+		if RotDir == 1:
+			if rot == 3:
 				rot = 0
-			else
+			else:
 				rot += 1
 		
-		else if RotDir == -1
-			if rot == 0
+		else if RotDir == -1:
+			if rot == 0:
 				rot = 3
-			else
+			else:
 				rot -= 1
 		
 		else
