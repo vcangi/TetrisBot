@@ -24,17 +24,17 @@ class Block:
 	def getValidShift(self,ShiftDir):
 		#ShiftDir assumed to be either be +1 or -1
 		newLoc = np.add(self.__coord,[ShiftDir,0])
-		if self.isUnoccupied(newLoc) and newLoc[:,0] !< 0 and newLoc[:,0] !> 9:
+		if self.isUnoccupied(newLoc) and np.less(newLoc[:,0],0) and np.greater(newLoc[:,0],9):
 			self.__coord  = newLoc
 			self.__center = self.__center
 		return self.__coord
 
 	def WallKick(self,loc,RotDir):
-		transforms = KickLogic[current][RotDir]
+		transforms = KickLogic[self.__orient][RotDir]
 		isLegal = False #flag to check if returned position is legal (did we return a new positon instead of the old one)
 		for tf in transforms:
 			loc = loc + tf 
-			if self.isUnoccupied(loc)
+			if self.isUnoccupied(loc):
 				isLegal = True
 				return loc,isLegal
 		return self.__coord,isLegal
@@ -87,14 +87,13 @@ class Block:
 			else:
 				rot += 1
 		
-		else if RotDir == -1:
+		elif RotDir == -1:
 			if rot == 0:
 				rot = 3
 			else:
-				rot -= 1
-		
-		else
-			error('Invalid Rotation Direction')
+				rot -= 1		
+		else:
+			print('Invalid Rotation Direction')
 		return rot
 
 
