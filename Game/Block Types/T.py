@@ -5,8 +5,6 @@ class TBlock(block):
 		self.__color = 7
 		self.__orient = 0
 		self.__rotTF = np.array([[1,-1],[0,0],[1,-1],[1,-1]])
-<<<<<<< HEAD
 		self.__center = np.array([5, 0])
-=======
 		self.__grid = grid
->>>>>>> Added checks for valid block rotations/shifts
+

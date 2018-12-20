@@ -5,9 +5,6 @@ class SBlock(block):
 		self.__color = 2
 		self.__orient = 0
 		self.__rotTF = np.array([[0,0],[0,0],[0,0],[0,0]])
-<<<<<<< HEAD
 		self.__center = np.array([5, 1])
-=======
 		self.__grid = grid
 
->>>>>>> Added checks for valid block rotations/shifts
