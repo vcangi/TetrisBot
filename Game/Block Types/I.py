@@ -1,17 +1,28 @@
-class IBlock(block):
+from block import Block
+import numpy as np
+
+class IBlock(Block):
 	
 	
 	def __init__(self,grid):
-		self.__coord = np.array([[5,0],[5,1],[5,2],[5,3]])
-		self.__color = 3
-		self.__orient = 0
-		self.__rotTF = np.array([[0,0],[0,0],[0,0],[0,0]])
-		self.__grid = grid
-		self.__center = np.array([4.5, 1.5])
+		self._Block__coord= np.array([[5,0],[5,1],[5,2],[5,3]])
+		self._Block__color = 3
+		self._Block__orient = 0
+		self._Block__rotTF = np.array([[0,0],[0,0],[0,0],[0,0]])
+		self._Block__grid = grid
+		self._Block__center = np.array([4.5, 1.5])
 
-	def WallKick(self,LR,grid):
-		current = self.getRotation()
-		transforms = KickLogic[current][LR]
+	def WallKick(self,loc,RotDir):
+		transforms = KickLogic[self._Block__orient][RotDir]
+		isLegal = False #flag to check if returned position is legal (did we return a new positon instead of the old one)
+		total_tf = [0,0]
+		for tf in transforms:
+			loc += tf 
+			total_tf += tf
+			if self.isUnoccupied(loc):
+				isLegal = True
+				return loc,isLegal,total_tf
+		return self._Block__coord,isLegal,total_tf
 
 		return coord
 

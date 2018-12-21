@@ -1,5 +1,5 @@
 import numpy as np
-
+import math
 
 class Block:
 
@@ -14,36 +14,40 @@ class Block:
 
 	def getValidRotation(self,RotDir):
 		#RotDir assumed to be either be +1 or -1
+		oldLoc = self.__coord
 		newLoc = self.rotate(RotDir) #Gets potential new rotaion location
-		newLoc,moved = self.WallKick(newLoc,RotDir,grid)
+		newLoc,moved,tf = self.WallKick(newLoc,RotDir)
 		if moved:
+			self.__center += tf
 			self.__orient = self.setRotation(RotDir)
 			self.__coord  = newLoc
-		return self.__coord
+		return oldLoc
 
 	def getValidShift(self,ShiftDir):
 		#ShiftDir assumed to be either be +1 or -1
-		newLoc = np.add(self.__coord,[ShiftDir,0])
-		if self.isUnoccupied(newLoc) and np.less(newLoc[:,0],0) and np.greater(newLoc[:,0],9):
+		newLoc = np.add(self.__coord,[ShiftDir,0]).astype(int)
+		if self.isUnoccupied(newLoc):
 			self.__coord  = newLoc
-			self.__center = self.__center
+			self.__center +=[ShiftDir,0]
 		return self.__coord
 
 	def WallKick(self,loc,RotDir):
 		transforms = KickLogic[self.__orient][RotDir]
 		isLegal = False #flag to check if returned position is legal (did we return a new positon instead of the old one)
+		total_tf = [0,0]
 		for tf in transforms:
-			loc = loc + tf 
+			loc += tf 
+			total_tf += tf
 			if self.isUnoccupied(loc):
 				isLegal = True
-				return loc,isLegal
-		return self.__coord,isLegal
+				return loc,isLegal,total_tf
+		return self.__coord,isLegal,total_tf
 
 	def rotate(self, RotDir= 1):
 		output = np.zeros(np.shape(self.__coord))
 
 		# calculates the theta needed to get to the specified position
-		theta = (RotDir) * 90
+		theta = (RotDir) * math.pi/2
 		
 		# Rotation Matrix
 		rot_mat = np.array(((np.cos(theta), -np.sin(theta)), (np.sin(theta), np.cos(theta))))
@@ -63,8 +67,14 @@ class Block:
 
 	def isUnoccupied(self,loc):
 		for pixel in loc:
-				if self.__grid[pixel] != 0:
-					return False
+				x = int(pixel[0])
+				y = int(pixel[1])
+				print(x)
+				print(self.__grid[x,y])
+				if x < -1 or x > 10:
+					return False				
+				elif self.__grid[x,y] != 0:
+						return False
 		return True
 
 	def getPosition(self):
@@ -78,6 +88,9 @@ class Block:
 
 	def setPosition(self,coord):
 		self.__coord = coord
+
+	def setGrid(self,grid):
+		self.__grid = grid
 
 	def setRotation(self,RotDir):
 		rot = 0
