@@ -24,12 +24,12 @@ class Block:
             self.__coord = new_loc
         return old_loc
 
-    def getValidShift(self, shift_dir):
+    def getValidShift(self, shift_x, shift_y):
         # shift_dir assumed to be either be +1 or -1
-        new_loc = np.add(self.__coord, [shift_dir, 0]).astype(int)
+        new_loc = np.add(self.__coord, [shift_x, shift_y]).astype(int)
         if self.isUnoccupied(new_loc):
             self.__coord = new_loc
-            self.__center += [shift_dir, 0]
+            self.__center += [shift_x, shift_y]
         return self.__coord
 
     def WallKick(self, loc, rot_dir):

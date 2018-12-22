@@ -31,14 +31,38 @@ class tetris:
         curr_block = block_arr[block_counter]
         block_counter += 1
         curr_block.setGrid(self.grid)
-        while True:
-            pygame.time.delay(50)
+        run = True
+        while run:
+            pygame.time.delay(5)
+            self.clock.tick(15)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+
+            keys = pygame.key.get_pressed()
+
+
             self.grid = np.zeros((BLOCKX, BLOCKY))
             self.updateGrid(curr_block)
             # curr_block.getValidShift(1)
-            curr_block.getValidRotation(1)
+
+            if keys[pygame.K_SPACE]:
+                curr_block.getValidRotation(1)
+
+            if keys[pygame.K_LEFT]:
+                curr_block.getValidShift(-1, 0)
+
+            if keys[pygame.K_UP]:
+                curr_block.getValidShift(0, -1)
+
+            if keys[pygame.K_RIGHT]:
+                curr_block.getValidShift(1, 0)
+
+            if keys[pygame.K_DOWN]:
+                curr_block.getValidShift(0, 1)
+
             self.redrawWindow()
-            self.clock.tick(1)
+
             if self.checkClose():
                 break
 
