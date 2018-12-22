@@ -33,20 +33,22 @@ class tetris:
         curr_block.setGrid(self.grid)
         while True:
             pygame.time.delay(50)
-            self.clock.tick(1)
+            self.grid = np.zeros((BLOCKX, BLOCKY))
             self.updateGrid(curr_block)
-            self.redrawWindow()
             # curr_block.getValidShift(1)
             curr_block.getValidRotation(1)
-            self.grid = np.zeros((BLOCKX, BLOCKY))
+            self.redrawWindow()
+            self.clock.tick(1)
             if self.checkClose():
                 break
 
     def updateGrid(self, curr_block):
+
         coord = curr_block.getPosition().astype(int)
         color = curr_block.getColor()
         for c in coord:
             self.grid[c[0], c[1]] = color
+
 
     def redrawWindow(self):
         self.win.fill((50, 50, 50))

@@ -71,9 +71,7 @@ class Block:
         for pixel in loc:
             x = int(pixel[0])
             y = int(pixel[1])
-            print(x)
-            print(self.__grid[x, y])
-            if x < -1 or x > 10:
+            if x < 0 or x > 9:
                 return False
             elif self.__grid[x, y] != 0:
                 return False
@@ -87,6 +85,9 @@ class Block:
 
     def getRotation(self):
         return self.__orient
+
+    def getGrid(self):
+       return self.__grid 
 
     def setPosition(self, coord):
         self.__coord = coord
