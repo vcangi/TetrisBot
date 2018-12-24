@@ -28,48 +28,47 @@ class tetris:
                               TBlock(self.grid),
                               SBlock(self.grid)])
         np.random.shuffle(block_arr)
-        curr_block = block_arr[block_counter]
+        self.curr_block = block_arr[block_counter]
         block_counter += 1
-        curr_block.setGrid(self.grid)
+        self.curr_block.setGrid(self.grid)
         run = True
+        self.up_pressed = False #used to prevent holding key for rotations 
         while run:
             pygame.time.delay(5)
             self.clock.tick(15)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
-
-            keys = pygame.key.get_pressed()
-
-
+                       
             self.grid = np.zeros((BLOCKX, BLOCKY))
-            self.updateGrid(curr_block)
-            # curr_block.getValidShift(1)
+            self.controlBlock()
+            self.updateGrid()
+            # self.curr_block.getValidShift(1)
 
-            if keys[pygame.K_SPACE]:
-                curr_block.getValidRotation(1)
-
-            if keys[pygame.K_LEFT]:
-                curr_block.getValidShift(-1, 0)
-
-            if keys[pygame.K_UP]:
-                curr_block.getValidShift(0, -1)
-
-            if keys[pygame.K_RIGHT]:
-                curr_block.getValidShift(1, 0)
-
-            if keys[pygame.K_DOWN]:
-                curr_block.getValidShift(0, 1)
 
             self.redrawWindow()
 
             if self.checkClose():
                 break
 
-    def updateGrid(self, curr_block):
+    def controlBlock(self):
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_UP] and self.up_pressed == False:
+                self.curr_block.getValidRotation(1)
+                self.up_pressed = True
+            elif not keys[pygame.K_UP]:
+                self.up_pressed = False
 
-        coord = curr_block.getPosition().astype(int)
-        color = curr_block.getColor()
+            if keys[pygame.K_LEFT]:
+                self.curr_block.getValidShift(-1, 0)
+ 
+            if keys[pygame.K_RIGHT]:
+                self.curr_block.getValidShift(1, 0)
+
+            if keys[pygame.K_DOWN]:
+                self.curr_block.getValidShift(0, 1)
+
+    def updateGrid(self):
+
+        coord = self.curr_block.getPosition().astype(int)
+        color = self.curr_block.getColor()
         for c in coord:
             self.grid[c[0], c[1]] = color
 
