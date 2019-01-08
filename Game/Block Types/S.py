@@ -10,3 +10,4 @@ class SBlock(Block):
         self._Block__orient = 0
         self._Block__center = np.array([5, 1])
         self._Block__grid = grid
+        self._Block__active = True
