@@ -26,8 +26,8 @@ class Block:
 
     def getValidShift(self, shift_x, shift_y):
         # shift_dir assumed to be either be +1 or -1
-        new_loc = np.add(self.__coord, [shift_x, shift_y]).astype(int)
-        if self.isUnoccupied(new_loc):
+        new_loc = np.add(self.__coord, [shift_x, shift_y]).astype(int) 
+        if np.all(np.less(new_loc,[20])) and self.isUnoccupied(new_loc):
             self.__coord = new_loc
             self.__center += [shift_x, shift_y]
         return self.__coord

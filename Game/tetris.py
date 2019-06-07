@@ -16,7 +16,11 @@ class tetris:
     def __init__(self):
         self.win = pygame.display.set_mode((WINX, WINY))
         self.clock = pygame.time.Clock()
-        self.grid = np.zeros((BLOCKX, BLOCKY))
+        self.grid = np.zeros((BLOCKX, BLOCKY)) #Array storing 
+        self.level = 1    # player leverl   
+        self.score = 0    # player score
+        self.lastTime = 0 # used for natural(automatic) drop 
+        self.up_pressed = False #used to prevent holding key for rotations
 
     def runGame(self):
         block_counter = 0
@@ -32,38 +36,56 @@ class tetris:
         block_counter += 1
         self.curr_block.setGrid(self.grid)
         run = True
-        self.up_pressed = False #used to prevent holding key for rotations 
+        
+
         while run:
             pygame.time.delay(5)
             self.clock.tick(15)
-                       
+            
+
             self.grid = np.zeros((BLOCKX, BLOCKY))
             self.controlBlock()
+            gameTime = pygame.time.get_ticks()
+
+            #Cause Automatic Drop due to lack of movement
+            if gameTime - self.lastTime  >= 1000/self.level:
+                self.naturalDrop()
+                self.lastTime = gameTime
+
             self.updateGrid()
-            # self.curr_block.getValidShift(1)
-
-
+          
+            
             self.redrawWindow()
-
             if self.checkClose():
                 break
+            #end
 
     def controlBlock(self):
             keys = pygame.key.get_pressed()
             if keys[pygame.K_UP] and self.up_pressed == False:
                 self.curr_block.getValidRotation(1)
                 self.up_pressed = True
+                self.lastTime = pygame.time.get_ticks()
+
             elif not keys[pygame.K_UP]:
                 self.up_pressed = False
 
             if keys[pygame.K_LEFT]:
                 self.curr_block.getValidShift(-1, 0)
- 
+                self.lastTime = pygame.time.get_ticks()
+
             if keys[pygame.K_RIGHT]:
                 self.curr_block.getValidShift(1, 0)
+                self.lastTime = pygame.time.get_ticks()
+
 
             if keys[pygame.K_DOWN]:
                 self.curr_block.getValidShift(0, 1)
+                self.lastTime = pygame.time.get_ticks()
+
+
+    def naturalDrop(self):
+        self.curr_block.getValidShift(0, 1)
 
     def updateGrid(self):
 
@@ -104,24 +126,24 @@ class tetris:
         return False
 
 
-#               R    G    B
-WHITE = (255, 255, 255)
-GRAY = (185, 185, 185)
-BLACK = (0, 0, 0)
-RED = (155, 0, 0)
-LIGHTRED = (175, 20, 20)
-GREEN = (0, 155, 0)
-LIGHTGREEN = (20, 175, 20)
-BLUE = (0, 0, 155)
-LIGHTBLUE = (20, 20, 175)
-YELLOW = (155, 155, 0)
-LIGHTYELLOW = (175, 175, 20)
-CYAN = (0, 255, 255)
-LIGHTCYAN = (224, 255, 255)
-PURPLE = (128, 0, 128)
-LIGHTPURPLE = (238, 130, 238)
-ORANGE = (255, 140, 0)
-LIGHTORANGE = (255, 165, 0)
+#           R    G    B
+WHITE   = (255, 255, 255)
+GRAY    = (185, 185, 185)
+BLACK   = (000, 000, 000)
+RED     = (155, 000, 000)
+LRED    = (175,  20,  20)
+GREEN   = (000, 155, 000)
+LGREEN  = ( 20, 175,  20)
+BLUE    = (000, 000, 155)
+LBLUE   = ( 20,  20, 175)
+YELLOW  = (155, 155, 000)
+LYELLOW = (175, 175,  20)
+CYAN    = (000, 255, 255)
+LCYAN   = (224, 255, 255)
+PURPLE  = (128, 000, 128)
+LPURPLE = (238, 130, 238)
+ORANGE  = (255, 140, 000)
+LORANGE = (255, 165, 000)
 
 color_map = {0: BLACK,
              1: RED,
