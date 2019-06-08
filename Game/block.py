@@ -27,10 +27,12 @@ class Block:
 
     def attempt_translation(self, x_transform, y_transform):
         new_coordinates = np.add(self.__coord, [x_transform, y_transform]).astype(int)
+        translated = False
         if self.is_unoccupied(new_coordinates):
             self.__coord = new_coordinates
             self.__center += [x_transform, y_transform]
-        return self.__coord
+            translated = True
+        return translated
 
     def wall_kick(self, coordinates, rotation_direction):
         transforms = KickLogic[self.__orient][rotation_direction]
