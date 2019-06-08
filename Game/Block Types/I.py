@@ -10,6 +10,8 @@ class IBlock(Block):
         self._Block__orient = 0
         self._Block__grid = grid
         self._Block__center = np.array([4.5, 1.5])
+        self._Block__active = True
+
 
     def WallKick(self, loc, RotDir):
         transforms = KickLogic[self._Block__orient][RotDir]
