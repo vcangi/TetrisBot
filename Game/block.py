@@ -11,45 +11,45 @@ class Block:
         self.__orient = 0  # 0, 1, 2, 3
         self.__center = np.array([0, 0])
         self.__grid = grid
+        self.__active = True
 
-    def getValidRotation(self, rot_dir):
-        # rot_dir = 1: CW 90 degree rotation
-        # rot_dir = -1: CCW 90 degree rotation
-        old_loc = self.__coord
-        new_loc = self.rotate(rot_dir)  # Gets potential new rotation location
-        new_loc, moved, tf = self.WallKick(new_loc, rot_dir)
+    def attempt_rotation(self, rotation_direction):
+        # rotation_direction = 1: CW 90 degree rotation
+        # rotation_direction = -1: CCW 90 degree rotation
+        old_coordinates = self.__coord
+        new_coordinates = self.rotate(rotation_direction)  # Gets potential new rotation coordinates
+        new_coordinates, moved, tf = self.wall_kick(new_coordinates, rotation_direction)
         if moved:
             self.__center += tf
-            self.__orient = self.setRotation(rot_dir)
-            self.__coord = new_loc
-        return old_loc
+            self.__orient = (self.__orient + rotation_direction) % 4
+            self.__coord = new_coordinates
+        return old_coordinates
 
-    def getValidShift(self, shift_x, shift_y):
-        # shift_dir assumed to be either be +1 or -1
-        new_loc = np.add(self.__coord, [shift_x, shift_y]).astype(int) 
-        if np.all(np.less(new_loc,[20])) and self.isUnoccupied(new_loc):
-            self.__coord = new_loc
-            self.__center += [shift_x, shift_y]
+    def attempt_translation(self, x_transform, y_transform):
+        new_coordinates = np.add(self.__coord, [x_transform, y_transform]).astype(int)
+        if self.is_unoccupied(new_coordinates):
+            self.__coord = new_coordinates
+            self.__center += [x_transform, y_transform]
         return self.__coord
 
-    def WallKick(self, loc, rot_dir):
-        transforms = KickLogic[self.__orient][rot_dir]
+    def wall_kick(self, coordinates, rotation_direction):
+        transforms = KickLogic[self.__orient][rotation_direction]
         # flag to check if returned position is legal (did we return a new position instead of the old one)
         is_legal = False
         total_tf = [0, 0]
         for tf in transforms:
-            loc += tf
+            coordinates += tf
             total_tf += tf
-            if self.isUnoccupied(loc):
+            if self.is_unoccupied(coordinates):
                 is_legal = True
-                return loc, is_legal, total_tf
+                return coordinates, is_legal, total_tf
         return self.__coord, is_legal, total_tf
 
-    def rotate(self, rot_dir=1):
+    def rotate(self, rotation_direction=1):
         output = np.zeros(np.shape(self.__coord))
 
         # calculates the theta needed to get to the specified position
-        theta = (rot_dir) * math.pi / 2
+        theta = rotation_direction * math.pi / 2
 
         # Rotation Matrix
         rot_mat = np.array(((np.cos(theta), -np.sin(theta)), (np.sin(theta), np.cos(theta))))
@@ -67,51 +67,42 @@ class Block:
             output[i, :] = np.round(float_coord[i, :] + self.__center, 0).astype(int)
         return output
 
-    def isUnoccupied(self, loc):
-        for pixel in loc:
+    def is_unoccupied(self, coordinates):
+        for pixel in coordinates:
             x = int(pixel[0])
             y = int(pixel[1])
             if x < 0 or x > 9:
+                return False
+            if y > 19:
+                self.__active = False
                 return False
             elif self.__grid[x, y] != 0:
                 return False
         return True
 
-    def getPosition(self):
+    def get_position(self):
         return self.__coord
 
-    def getColor(self):
+    def get_color(self):
         return self.__color
 
-    def getRotation(self):
+    def get_rotation(self):
         return self.__orient
 
-    def getGrid(self):
-       return self.__grid 
+    def get_grid(self):
+        return self.__grid 
 
-    def setPosition(self, coord):
+    def set_position(self, coord):
         self.__coord = coord
 
-    def setGrid(self, grid):
+    def set_grid(self, grid):
         self.__grid = grid
 
-    def setRotation(self, rot_dir):
-        rot = 0
-        if rot_dir == 1:
-            if rot == 3:
-                rot = 0
-            else:
-                rot += 1
+    def set_activity(self, active):
+        self.__active = active
 
-        elif rot_dir == -1:
-            if rot == 0:
-                rot = 3
-            else:
-                rot -= 1
-        else:
-            print('Invalid Rotation Direction')
-        return rot
-
+    def is_active(self):
+        return self.__active
 
 # Rotation attempts for Wall Kicks (All blocks except I)
 
